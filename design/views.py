@@ -9,12 +9,17 @@ from .models import AddUser, Request
 from django.views import generic
 from django.views.generic.edit import FormView
 
-# def index(request):
-#     design_requests = Request.objects.order_by('-created_at')[:4]
-#     context = {
-#         'design_requests': design_requests,
-#     }
-#     return render(request, 'catalog/all_list')
+class HomepageView(generic.ListView):
+    model = Request
+    template_name = 'index.html'
+
+    def get_queryset(self):
+        Request.objects.filter(status='C').order_by('-created_at')[:4]
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['design_requests_count'] = Request.objects.filter(status='P').count()
+        return context
 
 class Register(generic.CreateView):
     template_name = 'catalog/register.html'
