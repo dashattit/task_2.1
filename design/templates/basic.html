@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     {% load static %}
@@ -29,28 +28,10 @@
         </div>
     </header>
 <main class="container">
-    {% if user.is_authenticated %}
-        {% if request.resolver_match.view_name == 'index' %}
-        <h1>Добро пожаловать {{ user.username }}!</h1>
-        {% endif %}
-    {% else %}
-        {% block index %}
+
+        {% block content %}
         {% endblock %}
-<!--        {% block create_request %}-->
-<!--        {% endblock %}-->
-        {% block register %}
-        {% endblock %}
-        {% block login %}
-        {% endblock %}
-        {% block logout %}
-        {% endblock %}
-    {% endif %}
-    <div class="profile">
-        {% block profile %}
-        {% endblock %}
-    </div>
-<!--        {% block list_request %}-->
-<!--        {% endblock %}-->
+
 </main>
 </body>
 </html>

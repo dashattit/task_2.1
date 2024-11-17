@@ -1,9 +1,9 @@
 {% extends 'basic.html' %}
 {% block title %}Регистрация{% endblock%}
 
-{% block register %}
+{% block content %}
 <h1>Регистрация</h1><br>
-<form class="register_1" method="post" enctype="multipart/form-data">
+<form class="register_1" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <br><button class="btn btn-primary" type="submit">Зарегистрироваться</button>

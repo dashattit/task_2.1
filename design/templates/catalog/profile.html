@@ -1,11 +1,26 @@
-{% extends 'basic.html' %}
 {% block title %}Профиль{% endblock%}
 
-{% block profile %}
+{% block content %}
 <h1>Ваш профиль</h1>
 <br>
 <p>Имя пользователя: {{ user.username }}</p>
 <p>Ваше ФИО: {{ user.last_name }} {{ user.first_name }} {{ user.patronym }}</p>
 <p>Ваша почта: {{ user.email }}</p>
-
+<hr>
+{% if design_requests %}
+    <ul>
+      {% for request in design_requests %}
+        <div class="request_list">
+          <h2>{{ request.title }} - {{ request.user.username }}</h2>
+          <p class="btn btn-primary">{{ request.get_status_display }}</p>
+          <p class="request_list_description">{{ request.description }}</p>
+          <div class="request_list_items">
+              <p>{{ request.created_at }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </ul>
+{% else %}
+    <p>У вас пока нет заявок.</p>
+{% endif %}
 {% endblock%}

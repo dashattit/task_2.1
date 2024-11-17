@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from .models import AddUser, Request
 from django.core.validators import RegexValidator, EmailValidator, FileExtensionValidator
@@ -88,17 +89,40 @@ class AddUserLoginForm(forms.Form):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
 
+class RequestForm(forms.ModelForm):
+    title = forms.CharField(max_length=100, widget=forms.TextInput())
+    description = forms.CharField(widget=forms.Textarea)
+    image = forms.FileField(widget=forms.FileInput(), validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg', 'bmp'])])
+    status=forms.CharField
+
+    class Meta:
+        model = Request
+        fields=['title', 'description', 'category', 'image']
+
+    def clean_photo(self):
+        photo = self.cleaned_data.get('photo')
+        if photo.size > 1024*1024*2:
+            raise ValidationError('Размер не должен превышать 2 МБ.')
+
+    def save(self):
+        cleaned_data = super().clean()
+        return cleaned_data
+
+    def save(self,commit=True):
+        app = super().save(commit=False)
+        if self.user:
+            app.creator = self.user
+
+            if commit:
+                app.save()
+                self.save_m2m()
+                return app
 
 
-# class RequestForm(forms.ModelForm):
-#     title = forms.CharField(max_length=100, widget=forms.TextInput())
-#     description = forms.CharField(widget=forms.Textarea)
-#     image = forms.FileField(widget=forms.FileInput(), validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg', 'bmp'])])
-#     status=forms.CharField
-#
-#     class Meta:
-#         model = Request
-#         fields=['title', 'description', 'category', 'image']
-#
-#         class Request:
-#             pass
+class RequestFilterForm(forms.Form):
+    STATUS_CHOICES = [
+        ('', 'Все'),
+        ('N', 'Новая'),
+        ('P', 'Принято в работу'),
+    ]
+    status = forms.ChoiceField(choices=STATUS_CHOICES, required=False, label='Статус')

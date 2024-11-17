@@ -31,33 +31,27 @@ class AddUser(AbstractUser):
 
 
 
-# class Category(models.Model):
-#     name=models.CharField(max_length=150)
-#
-#
-#     def str(self):
-#         return self.name
-#
-#
-# class Request(models.Model):
-#     user = models.ForeignKey(AddUser, on_delete=models.CASCADE)
-#     title = models.CharField(max_length=200)
-#     description = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     image_sale = models.FileField(blank=True, upload_to='images/')
-#     category = models.ForeignKey(Category, on_delete=models.CASCADE, default='', verbose_name='')
-#     STATUS_CHOICES = [
-#         ('N', 'Новая'),
-#         ('P', 'Принято в работу'),
-#         ('C', 'Выполнено'),
-#     ]
-#     status = models.CharField(max_length=20,
-#                               choices=STATUS_CHOICES,
-#                               default='N')
-#
-#     def str(self):
-#         return self.title
-#
-#
-# class Request:
-#     pass
+class Category(models.Model):
+    name=models.CharField(max_length=150)
+
+    def __str__(self):
+        return self.name
+
+
+
+class Request(models.Model):
+    user = models.ForeignKey(AddUser, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    image_sale = models.FileField(blank=True, upload_to='images/')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    STATUS_CHOICES = [
+        ('N', 'Новая'),
+        ('P', 'Принято в работу'),
+        ('C', 'Выполнено'),
+    ]
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
+
+    def __str__(self):
+        return self.title

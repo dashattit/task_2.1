@@ -1,13 +1,11 @@
-<!--{% extends 'basic.html' %}-->
-
-<!--{% block title %}Удаление заявки{% endblock %}-->
+{% block title %}Удаление заявки{% endblock %}
 
 
-<!--{% block delete_request %}-->
-<!--<h3>Вы уверены, что хотите удалить {{ object }}?</h3>-->
-<!--<form method="post">-->
-<!--    {% csrf_token %}-->
-<!--    <button type="submit" class="btn btn-danger">Удалить</button>-->
-<!--    <a href="{% url 'profile' %}" class="btn btn-dark">Отмена</a>-->
-<!--</form>-->
-<!--{% endblock %}-->
+{% block content %}
+<h3>Вы уверены, что хотите удалить {{ object }}?</h3>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'profile' %}" class="btn btn-dark">Отмена</a>
+</form>
+{% endblock %}

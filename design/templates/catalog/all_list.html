@@ -1,8 +1,10 @@
-{% extends 'index.html' %}
-
-
-{% block listall %}
-
+{% block cards %}
+  <hr>
+  <form method="get" class="status-filter-form">
+        {% csrf_token %}
+        {{ filter_form.as_p }}
+        <button type="submit">Применить</button>
+    </form>
   <br>
   {% if design_requests %}
     <ul>
@@ -10,7 +12,7 @@
         <div class="request_list">
           <h2>{{ request.title }} - {{ request.user.username }}</h2>
           <p class="btn btn-warning">{{ request.get_status_display }}</p>
-          <p class="request_list_description">{{ request.description }}</p>  
+          <p class="request_list_description">{{ request.description }}</p>
           <div class="request_list_items">
               <p>{{ request.created_at }}</p>
           </div>

@@ -4,4 +4,22 @@
 {% block index %}
     <h1>Добро пожаловать на главную страницу!</h1>
     <p>это студия Design.pro</p>
+
+    {% if object_list %}
+        <ul>
+            {% for request in object_list %}
+                <div class="request_list">
+                    <h2>{{ request.title }} - {{ request.user.username }}</h2>
+                    <p class="btn btn-primary">{{ request.get_status_display }}</p>
+                    <p class="request_list_description">{{ request.description }}</p>
+                    <div class="request_list_items">
+                        <p>{{ request.created_at }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас пока нет заявок.</p>
+        <p>Доступные заявки: {{ design_requests_count }}</p>
+    {% endif %}
 {% endblock%}
