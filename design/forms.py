@@ -89,35 +89,40 @@ class AddUserLoginForm(forms.Form):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
 
+
+
 class RequestForm(forms.ModelForm):
     title = forms.CharField(max_length=100, widget=forms.TextInput())
     description = forms.CharField(widget=forms.Textarea)
     image = forms.FileField(widget=forms.FileInput(), validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg', 'bmp'])])
-    status=forms.CharField
 
     class Meta:
         model = Request
         fields=['title', 'description', 'category', 'image']
 
-    def clean_photo(self):
-        photo = self.cleaned_data.get('photo')
-        if photo.size > 1024*1024*2:
-            raise ValidationError('Размер не должен превышать 2 МБ.')
+    def clean_image(self):
+        image = self.cleaned_data.get('image')
+        if image.size > 1024*1024*2:
+            raise ValidationError('Файл слишком большой. Размер не должен превышать 2 МБ.')
+        return image
 
-    def save(self):
+    def clean(self):
         cleaned_data = super().clean()
         return cleaned_data
 
-    def save(self,commit=True):
+    def save(self, commit=True):
         app = super().save(commit=False)
         if self.user:
             app.creator = self.user
 
-            if commit:
-                app.save()
-                self.save_m2m()
-                return app
+        if commit:
+            app.save()
+            self.save_m2m()
+        return app
 
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
 
 class RequestFilterForm(forms.Form):
     STATUS_CHOICES = [

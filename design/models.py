@@ -32,11 +32,10 @@ class AddUser(AbstractUser):
 
 
 class Category(models.Model):
-    name=models.CharField(max_length=150)
+    name=models.CharField(max_length=150, verbose_name='Название', unique=True)
 
     def __str__(self):
         return self.name
-
 
 
 class Request(models.Model):
@@ -46,12 +45,16 @@ class Request(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image_sale = models.FileField(blank=True, upload_to='images/')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+
     STATUS_CHOICES = [
         ('N', 'Новая'),
         ('P', 'Принято в работу'),
         ('C', 'Выполнено'),
+
     ]
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
+    status = models.CharField(max_length=1,
+                              choices=STATUS_CHOICES,
+                              default='N')
 
     def __str__(self):
         return self.title

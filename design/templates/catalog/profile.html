@@ -1,3 +1,4 @@
+{% extends 'basic.html' %}
 {% block title %}Профиль{% endblock%}
 
 {% block content %}
@@ -12,7 +13,7 @@
       {% for request in design_requests %}
         <div class="request_list">
           <h2>{{ request.title }} - {{ request.user.username }}</h2>
-          <p class="btn btn-primary">{{ request.get_status_display }}</p>
+          <p class="btn btn-warning">{{ request.get_status_display }}</p>
           <p class="request_list_description">{{ request.description }}</p>
           <div class="request_list_items">
               <p>{{ request.created_at }}</p>
