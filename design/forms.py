@@ -1,7 +1,7 @@
 from django import forms
 
-from .models import AddUser
-from django.core.validators import RegexValidator, EmailValidator
+from .models import AddUser, Request
+from django.core.validators import RegexValidator, EmailValidator, FileExtensionValidator
 from django.contrib.auth import authenticate
 
 
@@ -88,23 +88,17 @@ class AddUserLoginForm(forms.Form):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
 
-class DesignRequest:
-    pass
 
 
-class DesignRequestForm(forms.ModelForm):
-    class Meta:
-        model = DesignRequest
-        fields = ['title', 'description', 'category', 'image']
-        labels = {
-            'title': 'Название заявки',
-            'description': 'Описание заявки',
-            'category': 'Категория',
-            'image': 'Фото заявки',
-        }
-        widgets = {
-            'title': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Введите название'}),
-            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Введите описание'}),
-            'category': forms.Select(attrs={'class': 'form-control'}),
-            'image': forms.ClearableFileInput(attrs={'class': 'form-control-file'}),
-        }
+# class RequestForm(forms.ModelForm):
+#     title = forms.CharField(max_length=100, widget=forms.TextInput())
+#     description = forms.CharField(widget=forms.Textarea)
+#     image = forms.FileField(widget=forms.FileInput(), validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg', 'bmp'])])
+#     status=forms.CharField
+#
+#     class Meta:
+#         model = Request
+#         fields=['title', 'description', 'category', 'image']
+#
+#         class Request:
+#             pass

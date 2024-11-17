@@ -31,27 +31,33 @@ class AddUser(AbstractUser):
 
 
 
-class Request(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE,
-        related_name='requests',
-        verbose_name="Пользователь"
-    )
-
-    title = models.CharField(max_length=200, verbose_name="Напишите название заявки")
-    description = models.TextField(verbose_name="Напишите к заявке описание")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name="Выберите категорию заявки")
-    image = models.FileField(
-        upload_to='requests',
-        validators=[validate_image],
-        verbose_name="Загрузите фото заявки"
-    )
-    LOAN_STATUS = (
-        ('n', 'Новая'),
-        ('a', 'Принято в работу'),
-        ('s', 'Выполнено'),
-    )
-    status = models.CharField(max_length=1, choices=LOAN_STATUS, verbose_name='Статус заявки', help_text='Статус заявки')
-    created_at = models.DateTimeField(auto_now_add=True, help_text="Дата и время создания заявки")
-
+# class Category(models.Model):
+#     name=models.CharField(max_length=150)
+#
+#
+#     def str(self):
+#         return self.name
+#
+#
+# class Request(models.Model):
+#     user = models.ForeignKey(AddUser, on_delete=models.CASCADE)
+#     title = models.CharField(max_length=200)
+#     description = models.TextField()
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     image_sale = models.FileField(blank=True, upload_to='images/')
+#     category = models.ForeignKey(Category, on_delete=models.CASCADE, default='', verbose_name='')
+#     STATUS_CHOICES = [
+#         ('N', 'Новая'),
+#         ('P', 'Принято в работу'),
+#         ('C', 'Выполнено'),
+#     ]
+#     status = models.CharField(max_length=20,
+#                               choices=STATUS_CHOICES,
+#                               default='N')
+#
+#     def str(self):
+#         return self.title
+#
+#
+# class Request:
+#     pass

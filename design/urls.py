@@ -1,7 +1,8 @@
+from tkinter.font import names
+
 from django.urls import path
 from . import views
-from .views import UserProfileListView
-
+from .views import UserProfileListView, RequestCreateView
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -9,8 +10,7 @@ urlpatterns = [
     path('login/', views.Login.as_view(), name='login'),
     path('logout/', views.logout_user, name='logout'),
     path('profile/', UserProfileListView.as_view(), name='profile'),
+    # path('create', RequestCreateView.as_view(), name='create_request'),
 ]
-urlpatterns += [
-    path('', views.create_request, name='create_request')
-]
+
 

@@ -1,14 +1,20 @@
+from lib2to3.fixes.fix_input import context
+
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from django.template.context_processors import request
 from django.urls import reverse_lazy
-from .forms import AddUserCreatingForm, AddUserLoginForm
-from .models import AddUser
+from .forms import AddUserCreatingForm, AddUserLoginForm, RequestForm
+from .models import AddUser, Request
 from django.views import generic
 from django.views.generic.edit import FormView
 
-def index(request):
-    return render(request, 'index.html')
+# def index(request):
+#     design_requests = Request.objects.order_by('-created_at')[:4]
+#     context = {
+#         'design_requests': design_requests,
+#     }
+#     return render(request, 'catalog/all_list')
 
 class Register(generic.CreateView):
     template_name = 'catalog/register.html'
@@ -43,15 +49,22 @@ def logout_user(request):
     return render(request, 'catalog/logout.html')
 
 
-def create_request(request):
-    if request.method == 'POST':
-        form = DesignRequestForm(request.POST, request.FILES)
-        if form.is_valid():
-            request = form.save(commit=False)
-            request.user = request.user
-             request.save()
-            return redirect('catalog:profile')
-    else:
-        form = DesignRequestForm()
-
-    return render(request, 'catalog/create_request.html', {'form': form})
+# class RequestCreateView(generic.CreateView):
+#     model = Request
+#     form_class = RequestForm
+#     template_name = 'catalog/create_request.html'
+#     success_url = '/catalog/profile'
+#
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         return super().form_valid()
+#
+#
+# class RequestListView(generic.ListView):
+#     model = Request
+#     template_name = 'catalog/list_request.html'
+#     context_object_name = 'design_requests'
+#     success_url = '/catalog/profile'
+#
+#     def get_queryset(self):
+#         return Request.objects.Filter(user=self.request.user)

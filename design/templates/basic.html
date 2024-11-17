@@ -18,8 +18,8 @@
                 <a href="{% url 'index' %}">Design.pro</a>
                 <a href="{% url 'index' %}">Главная</a>
                 {% if user.is_authenticated %}
-                <a href="{% url 'profile' %}">Профиль</a>
                 <a href="{% url 'create_request' %}">Создать заявку</a>
+                <a href="{% url 'profile' %}">Профиль</a>
                 <a href="{% url 'logout' %}">Выйти</a>
                 {% else %}
                 <a href="{% url 'login' %}">Войти</a>
@@ -36,9 +36,9 @@
     {% else %}
         {% block index %}
         {% endblock %}
+<!--        {% block create_request %}-->
+<!--        {% endblock %}-->
         {% block register %}
-        {% endblock %}
-        {% block create_request %}
         {% endblock %}
         {% block login %}
         {% endblock %}
@@ -49,8 +49,8 @@
         {% block profile %}
         {% endblock %}
     </div>
-        {% block list_request %}
-        {% endblock %}
+<!--        {% block list_request %}-->
+<!--        {% endblock %}-->
 </main>
 </body>
 </html>
