@@ -17,3 +17,7 @@ form > p > input{
     border: 2px solid #2b4bca;
     border-radius: 5px;
 }
+
+.request_list{
+    margin-bottom: 80px;
+}

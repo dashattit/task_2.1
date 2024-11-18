@@ -1,3 +1,5 @@
+from cProfile import label
+
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.conf import settings
@@ -44,7 +46,7 @@ class Request(models.Model):
     description = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     image_sale = models.FileField(blank=True, upload_to='images/')
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True,  verbose_name="Категория")
 
     STATUS_CHOICES = [
         ('N', 'Новая'),

@@ -92,9 +92,9 @@ class AddUserLoginForm(forms.Form):
 
 
 class RequestForm(forms.ModelForm):
-    title = forms.CharField(max_length=100, widget=forms.TextInput())
-    description = forms.CharField(widget=forms.Textarea)
-    image = forms.FileField(widget=forms.FileInput(), validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg', 'bmp'])])
+    title = forms.CharField(max_length=100, widget=forms.TextInput(),  label="Название")
+    description = forms.CharField(widget=forms.Textarea,  label="Описание")
+    image = forms.FileField(widget=forms.FileInput(), validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg', 'bmp'])],  label="Изображение")
 
     class Meta:
         model = Request

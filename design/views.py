@@ -85,3 +85,11 @@ class RequestCreateView(generic.CreateView):
             print(form.errors)  # Print out the errors for debugging
         return render(request, 'catalog/create_request.html', {'form': form})
 
+
+class RequestDeleteView(generic.DeleteView):
+    model = Request
+    template_name = 'catalog/delete_request.html'
+    success_url = reverse_lazy('profile')
+
+    def get_queryset(self):
+        return super().get_queryset()

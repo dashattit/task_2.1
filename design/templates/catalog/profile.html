@@ -18,6 +18,7 @@
           <div class="request_list_items">
               <p>{{ request.created_at }}</p>
           </div>
+            <a href="{% url 'delete_request' pk=request.pk %}" class="btn btn-danger">Удалить</a>
         </div>
       {% endfor %}
     </ul>
