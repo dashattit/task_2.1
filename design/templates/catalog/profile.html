@@ -7,6 +7,11 @@
 <p>Имя пользователя: {{ user.username }}</p>
 <p>Ваше ФИО: {{ user.last_name }} {{ user.first_name }} {{ user.patronym }}</p>
 <p>Ваша почта: {{ user.email }}</p>
+{% if user.document %}
+    <p>Согласие на обработку персональных данных: <a href="{{ user.document.url }}" class="btn-primary">скачать</a></p>
+{% else %}
+    <p>Документ на обработку персональных данных не загружен.</p>
+{% endif %}
 <hr>
 {% if design_requests %}
     <ul>

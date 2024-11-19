@@ -12,6 +12,7 @@ class AddUser(AbstractUser):
     last_name = models.CharField(max_length=100, blank=True)
     password = models.CharField(max_length=100, blank=True)
     password_confirm = models.CharField(max_length=100, blank=True)
+    document = models.FileField(upload_to='documents/', blank=True, null=True)
 
     groups = models.ManyToManyField(
         Group, related_query_name='adduser',
@@ -54,9 +55,8 @@ class Request(models.Model):
         ('C', 'Выполнено'),
 
     ]
-    status = models.CharField(max_length=1,
-                              choices=STATUS_CHOICES,
-                              default='N')
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='N')
+    urgent = models.BooleanField(default=False, verbose_name="Срочная заявка")
 
     def __str__(self):
         return self.title

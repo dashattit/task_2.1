@@ -64,6 +64,16 @@ def logout_user(request):
     logout(request)
     return render(request, 'catalog/logout.html')
 
+def create_user(request):
+    if request.method == 'POST':
+        form = AddUserCreatingForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return render(request, 'catalog/login.html')
+    else:
+        form = AddUserCreatingForm()
+        return render(request, 'catalog/login.html', {'form': form})
+
 class RequestCreateView(generic.CreateView):
     model = Request
     form_class = RequestForm
@@ -77,13 +87,20 @@ class RequestCreateView(generic.CreateView):
     def post(self, request):
         form = RequestForm(request.POST, request.FILES)
         if form.is_valid():
-            request_instance = form.save(commit=False)  # Don't save yet
-            request_instance.user = request.user  # Set the user field
-            request_instance.save()  # Save the instance with correct category
+            request_instance = form.save(commit=False)
+            request_instance.user = request.user
+            request_instance.save()
             return redirect('profile')
         else:
-            print(form.errors)  # Print out the errors for debugging
+            print(form.errors)
         return render(request, 'catalog/create_request.html', {'form': form})
+
+    def profile_view(self, request):
+        if request.user.is_superuser:
+            requests = Request.objects.all() # Показывать все запросы, включая срочные, для пользователей с правами администратора
+        else:
+            requests = Request.objects.filter(user=request.user).exclude(urgent=True) # Скрывать срочные запросы для обычных пользователей
+        return render(request, 'catalog/profile.html', {'requests': requests})
 
 
 class RequestDeleteView(generic.DeleteView):

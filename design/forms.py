@@ -69,10 +69,9 @@ class AddUserCreatingForm(forms.ModelForm):
             user.save()
         return user
 
-    consent = forms.BooleanField(
+    document = forms.FileField(
         required=True,
         label='Согласие на обработку персональных данных',
-        widget=forms.CheckboxInput()
     )
 
     class Meta:
@@ -89,12 +88,11 @@ class AddUserLoginForm(forms.Form):
     password = forms.CharField(label="Пароль", widget=forms.PasswordInput)
 
 
-
-
 class RequestForm(forms.ModelForm):
     title = forms.CharField(max_length=100, widget=forms.TextInput(),  label="Название")
     description = forms.CharField(widget=forms.Textarea,  label="Описание")
     image = forms.FileField(widget=forms.FileInput(), validators=[FileExtensionValidator(allowed_extensions=['png', 'jpeg', 'jpg', 'bmp'])],  label="Изображение")
+    urgent = forms.BooleanField(required=False, label="Срочная заявка")
 
     class Meta:
         model = Request
@@ -102,6 +100,8 @@ class RequestForm(forms.ModelForm):
 
     def clean_image(self):
         image = self.cleaned_data.get('image')
+        if not image:
+            raise ValidationError('Обязательное поле.')
         if image.size > 1024*1024*2:
             raise ValidationError('Файл слишком большой. Размер не должен превышать 2 МБ.')
         return image
@@ -112,9 +112,10 @@ class RequestForm(forms.ModelForm):
 
     def save(self, commit=True):
         app = super().save(commit=False)
-        if self.user:
-            app.creator = self.user
+        app.user = self.user
 
+        # if self.user:
+        #     app.creator = self.user
         if commit:
             app.save()
             self.save_m2m()
