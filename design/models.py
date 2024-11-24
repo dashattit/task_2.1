@@ -48,6 +48,7 @@ class Request(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     image_sale = models.FileField(blank=True, upload_to='images/')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, blank=True,  verbose_name="Категория")
+    comment = models.TextField(blank=True, null=True, verbose_name="Комментарий")
 
     STATUS_CHOICES = [
         ('N', 'Новая'),

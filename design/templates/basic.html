@@ -18,6 +18,9 @@
                 <a href="{% url 'index' %}">Design.pro</a>
                 <a href="{% url 'index' %}">Главная</a>
                 {% if user.is_authenticated %}
+                  {% if user.is_staff %}
+                   <a href="{% url 'admin:index' %}">Админ-панель</a>
+                  {% else %}
                 <a href="{% url 'create_request' %}">Создать заявку</a>
                 <a href="{% url 'profile' %}">Профиль</a>
                 <a href="{% url 'logout' %}">Выйти</a>
