@@ -96,7 +96,7 @@ class RequestForm(forms.ModelForm):
 
     class Meta:
         model = Request
-        fields=['title', 'description', 'category', 'image']
+        fields=['title', 'description', 'category', 'image', 'urgent']
 
     def clean_image(self):
         image = self.cleaned_data.get('image')
@@ -113,9 +113,6 @@ class RequestForm(forms.ModelForm):
     def save(self, commit=True):
         app = super().save(commit=False)
         app.user = self.user
-
-        # if self.user:
-        #     app.creator = self.user
         if commit:
             app.save()
             self.save_m2m()
